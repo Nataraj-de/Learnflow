@@ -1,0 +1,86 @@
+import random
+
+# Questions database
+quiz_data = {
+    "math": {
+        "easy": [
+            {"question": "What is 2 + 2?", "options": ["3", "4", "5"], "answer": "4"},
+            {"question": "What is 5 - 3?", "options": ["1", "2", "3"], "answer": "2"},
+        ],
+        "medium": [
+            {"question": "What is 12 * 2?", "options": ["20", "24", "22"], "answer": "24"},
+            {"question": "What is 36 / 6?", "options": ["6", "7", "8"], "answer": "6"},
+        ],
+        "hard": [
+            {"question": "What is the square root of 144?", "options": ["10", "11", "12"], "answer": "12"},
+            {"question": "What is 15 * 15?", "options": ["200", "225", "250"], "answer": "225"},
+        ],
+    },
+    "science": {
+        "easy": [
+            {"question": "What planet is known as the Red Planet?", "options": ["Earth", "Mars", "Venus"], "answer": "Mars"},
+            {"question": "What is H2O commonly known as?", "options": ["Oxygen", "Hydrogen", "Water"], "answer": "Water"},
+        ],
+        "medium": [
+            {"question": "What is the chemical symbol for gold?", "options": ["Au", "Ag", "Pb"], "answer": "Au"},
+            {"question": "What gas do plants breathe in?", "options": ["Oxygen", "Carbon Dioxide", "Nitrogen"], "answer": "Carbon Dioxide"},
+        ],
+        "hard": [
+            {"question": "What is the heaviest naturally occurring element?", "options": ["Uranium", "Gold", "Lead"], "answer": "Uranium"},
+            {"question": "Who proposed the theory of relativity?", "options": ["Newton", "Einstein", "Bohr"], "answer": "Einstein"},
+        ],
+    },
+    # Add more topics and difficulty levels here
+}
+
+# Function to start the quiz
+def start_quiz(topic, difficulty):
+    score = 0
+    total_questions = len(quiz_data[topic][difficulty])
+    random.shuffle(quiz_data[topic][difficulty])  # Shuffle questions to make it random
+
+    for idx, question in enumerate(quiz_data[topic][difficulty], 1):
+        print(f"\nQuestion {idx}: {question['question']}")
+        for i, option in enumerate(question['options'], 1):
+            print(f"{i}. {option}")
+        
+        # Get the user's answer
+        user_answer = input("\nEnter the number of your answer: ")
+        
+        # Check if the answer is correct
+        correct_answer = question['answer']
+        if question['options'][int(user_answer) - 1] == correct_answer:
+            print("Correct!")
+            score += 1
+        else:
+            print(f"Incorrect! The correct answer was {correct_answer}.")
+
+    print(f"\nQuiz finished! Your final score is {score}/{total_questions}.")
+
+# Main game loop
+def quiz_game():
+    print("Welcome to the Quiz Game!")
+    while True:
+        # Select topic
+        topic = input("Choose a topic (math/science): ").lower()
+        if topic not in quiz_data:
+            print("Invalid topic. Please choose again.")
+            continue
+
+        # Select difficulty
+        difficulty = input("Choose difficulty level (easy/medium/hard): ").lower()
+        if difficulty not in quiz_data[topic]:
+            print("Invalid difficulty level. Please choose again.")
+            continue
+
+        # Start quiz
+        start_quiz(topic, difficulty)
+
+        # Play again?
+        play_again = input("\nDo you want to play again? (yes/no): ").lower()
+        if play_again != "yes":
+            print("Thank you for playing!")
+            break
+
+# Run the game
+quiz_game()
